@@ -1,0 +1,35 @@
+services:
+  contact:
+    build: 
+      context: ./contact  # Path to the contact Dockerfile
+    image: contact  # Name for the Docker image
+    container_name: contact_container  # Name for the container
+    ports:
+      - "3001:3001"       # Map the container port 3001 to the host port 3001
+    depends_on:
+      - user              # Ensure 'user' service starts before 'contact'
+    environment:
+      - LOVE_FROM_DOCKER_CONTACT=${FILE_IN_ROOT_FOR_CONTACT}
+
+  user:
+    build: 
+      context: ./users    # Path to the user Dockerfile
+    image: user # Name for the Docker image
+    container_name: user_container  # Name for the container
+    ports:
+      - "3000:3000"       # Map the container port 3000 to the host port 3000
+    environment:
+      - LOVE_FROM_DOCKER_USER=${FILE_IN_ROOT_FOR_USER}
+
+  frontend:
+    build: 
+      context: ./frontend # Path to the frontend Dockerfile
+    image: frontend  # Name for the Docker image
+    container_name: frontend_container  # Name for the container
+    ports:
+      - "5173:5173"       # Map the container port 5173 to the host port 5173
+    depends_on:
+      - contact           # Ensure 'contact' service starts before 'frontend'
+      - user              # Ensure 'user' service starts before 'frontend'
+    environment:
+      - LOVE_FROM_DOCKER=${FILE_IN_ROOT_FOR_REACT}

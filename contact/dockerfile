@@ -1,0 +1,7 @@
+FROM node
+WORKDIR /contact
+COPY package.json /contact/
+RUN npm install
+COPY . /contact/
+EXPOSE 3001
+CMD ["node","index.js"]

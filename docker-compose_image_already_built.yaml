@@ -1,0 +1,21 @@
+services:
+  contact:
+    image: contact
+    ports:
+      - "3001:3001"
+    depends_on:
+      - user
+    container_name: contact_container
+  user:
+    image: users
+    ports:
+      - "3000:3000"
+    container_name: user_container
+  frontend:
+    image: frontend
+    ports:
+      - "5173:5173"
+    container_name: frontend_container
+    depends_on:
+      - user
+      - contact

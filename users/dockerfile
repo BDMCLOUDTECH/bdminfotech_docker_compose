@@ -1,0 +1,7 @@
+FROM node
+WORKDIR /users
+COPY package.json /users/
+RUN npm install
+COPY . /users
+EXPOSE 3000
+CMD [ "node","index.js" ]
